@@ -54,10 +54,10 @@ fn is_consonant(char: char) -> bool {
 /// Grabs the index of `val` within the iterator and returns the original iterator.
 /// This is done in part because of a limitation in `Iterator::position`,
 /// in that it alters the underlying iterator in-place instead of just returning the index.
-fn index_and_iterator<'a, T, It>(val: T, iterator: It) -> (usize, It)
+fn index_and_iterator<'a, Val, It>(val: Val, iterator: It) -> (usize, It)
 where
-    T: 'a + std::cmp::Eq,
-    It: Iterator<Item = &'a T> + Clone,
+    Val: 'a + std::cmp::Eq,
+    It: Iterator<Item = &'a Val> + Clone,
 {
     let i = iterator.clone().position(|v| v == &val).unwrap();
     (i, iterator)
