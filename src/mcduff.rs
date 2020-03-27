@@ -60,7 +60,6 @@ fn is_consonant(char: char) -> bool {
 /// The reason all three types are applied separately instead of simply reversing the alphabet is simple:
 /// it leads to (somewhat) pronounceable results: "Make sure they die." becomes "Puro jako htoc xio."
 fn inverse_char(char: char) -> char {
-    // digits base 10
     let it = match char {
         c if c.is_digit(10) => DIGITS.iter(),
         c if is_vowel(c) => VOWELS.iter(),
