@@ -16,7 +16,7 @@ enum Case {
 }
 
 /// Gets the current ascii casing of a given string, marking any non-ascii letter as `Case::Symbol`
-/// Example: `get_casing(text) == vec![Upper, Lower, Lower, Lower, Lower, Symbol]`
+/// Example: `get_casing("Hello.") == [Upper, Lower, Lower, Lower, Lower, Symbol]`
 fn get_casing<'a>(str: &'a str) -> impl Iterator<Item = Case> + 'a {
     str.chars().map(|c| match c {
         n if n.is_ascii_uppercase() => Case::Upper,
