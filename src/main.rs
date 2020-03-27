@@ -1,15 +1,28 @@
 mod mcduff;
 use mcduff::inverse_string;
+use std::env;
+
+fn invert_and_print(str: &str) {
+    let inv = inverse_string(str);
+    println!("Original: {}", str);
+    println!("Ciphered: {}", inv);
+}
 
 fn main() {
-    let test = "Grumpy wizard makes toxic brew for the evil Queen and Jack.";
-    let inv = inverse_string(&test);
+    let args = env::args().collect::<Vec<_>>();
 
-    println!("Original: {}", test);
-    println!("Inverted: {}", inv);
+    if args.len() < 2 {
+        println!("Please enter some text to convert.");
+        return;
+    }
 
-    assert_eq!(
-        "Vkapmc fibukx puroj hediy zkof wek hto ogiq Laoon unx Suyr.".to_owned(),
-        inv
-    );
+    if args.len() == 2 {
+        invert_and_print(&args[1]);
+        return;
+    }
+
+    for (i, arg) in args[1..].iter().enumerate() {
+        println!("--- String {} ---", i + 1);
+        invert_and_print(&arg);
+    }
 }
