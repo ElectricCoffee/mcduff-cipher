@@ -51,18 +51,6 @@ fn is_consonant(char: char) -> bool {
     CONSONANTS.contains(&char)
 }
 
-/// Grabs the index of `val` within the iterator and returns the original iterator.
-/// This is done in part because of a limitation in `Iterator::position`,
-/// in that it alters the underlying iterator in-place instead of just returning the index.
-fn index_and_iterator<'a, Val, It>(val: Val, iterator: It) -> (usize, It)
-where
-    Val: 'a + std::cmp::Eq,
-    It: Iterator<Item = &'a Val> + Clone,
-{
-    let i = iterator.clone().position(|v| v == &val).unwrap();
-    (i, iterator)
-}
-
 /// Gets the "inverse" of a char.
 /// Inverse in this case means "the same position from the other end".
 /// It does so individually for vowels, consonants, and digits.
@@ -73,25 +61,18 @@ where
 /// it leads to (somewhat) pronounceable results: "Make sure they die." becomes "Puro jako htoc xio."
 fn inverse_char(char: char) -> char {
     // digits base 10
-    let (index, iterator) = if char.is_digit(10) {
-        index_and_iterator(char, DIGITS.iter())
-    }
-    // vowels
-    else if is_vowel(char) {
-        index_and_iterator(char, VOWELS.iter())
-    }
-    // consonants
-    else if is_consonant(char) {
-        index_and_iterator(char, CONSONANTS.iter())
-    }
-    // ignore the rest
-    else {
-        return char;
+    let it = match char {
+        c if c.is_digit(10) => DIGITS.iter(),
+        c if is_vowel(c) => VOWELS.iter(),
+        c if is_consonant(c) => CONSONANTS.iter(),
+        c => return c,
     };
 
+    // cloning is necessary because `position` mutates its iterator
+    let i = it.clone().position(|c| c == &char).unwrap();
     // unwrap is safe here because the bounds of the index is known
     // we won't ever get an index higher than what's permissible by the original input
-    *iterator.rev().nth(index).unwrap()
+    *it.rev().nth(i).unwrap()
 }
 
 /// Encodes and decodes a string.
