@@ -89,8 +89,9 @@ fn inverse_char(char: char) -> char {
         return char;
     };
 
-    let vec = iterator.rev().collect::<Vec<_>>();
-    vec[index].to_owned()
+    // unwrap is safe here because the bounds of the index is known
+    // we won't ever get an index higher than what's permissible by the original input
+    *iterator.rev().nth(index).unwrap()
 }
 
 /// Encodes and decodes a string.
