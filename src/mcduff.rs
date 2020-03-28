@@ -41,16 +41,6 @@ where
     })
 }
 
-/// Checks if a char is in the VOWELS array
-fn is_vowel(char: char) -> bool {
-    VOWELS.contains(&char)
-}
-
-/// Checks if a char is in the CONSONANTS array
-fn is_consonant(char: char) -> bool {
-    CONSONANTS.contains(&char)
-}
-
 /// Gets the "inverse" of a char.
 /// Inverse in this case means "the same position from the other end".
 /// It does so individually for vowels, consonants, and digits.
@@ -62,8 +52,8 @@ fn is_consonant(char: char) -> bool {
 fn inverse_char(char: char) -> char {
     let it = match char {
         c if c.is_digit(10) => DIGITS.iter(),
-        c if is_vowel(c) => VOWELS.iter(),
-        c if is_consonant(c) => CONSONANTS.iter(),
+        c if VOWELS.contains(&c) => VOWELS.iter(),
+        c if CONSONANTS.contains(&c) => CONSONANTS.iter(),
         c => return c,
     };
 
