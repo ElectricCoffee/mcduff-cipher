@@ -58,6 +58,7 @@ fn inverse_char(char: char) -> char {
     };
 
     // cloning is necessary because `position` mutates its iterator
+    // unwrap here is safe because we know the char exists at runtime
     let i = it.clone().position(|c| c == &char).unwrap();
     // unwrap is safe here because the bounds of the index is known
     // we won't ever get an index higher than what's permissible by the original input
